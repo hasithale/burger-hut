@@ -83,7 +83,7 @@ export default function HomePage() {
         {/* Hero Section */}
         <section
           className="relative flex items-center overflow-hidden"
-          style={{ height: "870px" }}
+          style={{ height: "670px" }}
         >
           <div className="absolute inset-0 z-0">
             <img
