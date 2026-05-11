@@ -33,7 +33,15 @@ export default function Footer() {
               color: "#e6bdbb",
             }}
           >
-            © 2024 Burger Hut Makola. Good Food, Great Taste, Good Mood.
+            © {new Date().getFullYear()} Burger Hut Makola. Made and Grilled with 🔥 by{" "}
+            <Link
+              href="https://www.facebook.com/pixeleditzlk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#ffb3b1] transition-colors"
+            >
+              PixelEditz
+            </Link>.
           </p>
         </div>
 
