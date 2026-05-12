@@ -4,8 +4,8 @@ export default function BottomNav() {
   const items = [
     { href: "tel:+94772019488", icon: "call", label: "Call Us" },
     { href: "https://wa.me/94772019488", icon: "chat", label: "WhatsApp" },
-    { href: "/locations", icon: "location_on", label: "Location" },
-    { href: "#", icon: "thumb_up", label: "Facebook" },
+    { href: "#locations", icon: "location_on", label: "Location" },
+    { href: "https://www.facebook.com/burgerhutmakola", icon: "thumb_up", label: "Facebook" },
   ];
 
   return (
@@ -18,12 +18,12 @@ export default function BottomNav() {
       }}
     >
       {items.map(({ href, icon, label }) => (
-        <Link
+        <a
           key={label}
           href={href}
           className="flex flex-col items-center gap-1 transition-all active:opacity-80"
           style={{ color: "#e6bdbb", textDecoration: "none" }}
-          target={href.startsWith("http") ? "_blank" : undefined}
+          target={href.startsWith("http") || href.startsWith("tel") ? "_blank" : undefined}
           rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
         >
           <span className="material-symbols-outlined" style={{ fontSize: "24px", color: "#ffdb9d" }}>
@@ -39,7 +39,7 @@ export default function BottomNav() {
           >
             {label}
           </span>
-        </Link>
+        </a>
       ))}
     </nav>
   );

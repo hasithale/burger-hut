@@ -1,322 +1,188 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/menu", label: "Menu" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/locations", label: "Locations" },
-  { href: "/contact", label: "Contact" },
+  { href: "#home", label: "Home" },
+  { href: "#about", label: "About" },
+  { href: "#menu", label: "Menu" },
+  { href: "#gallery", label: "Gallery" },
+  { href: "#locations", label: "Locations" },
+  { href: "#contact", label: "Contact" },
 ];
 
+const sectionIds = ["home", "about", "menu", "gallery", "locations", "contact"];
+
 export default function Navbar() {
-  const pathname = usePathname();
+  const [activeSection, setActiveSection] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // Close mobile menu on route change
   useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
+    const observers: IntersectionObserver[] = [];
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
 
   return (
-    <>
-      <header
-        className="sticky top-0 z-50 border-b backdrop-blur-md shadow-lg"
-        style={{
-          backgroundColor: "rgba(19,19,19,0.95)",
-          borderColor: "rgba(255,255,255,0.1)",
-        }}
-      >
-        <div
-          className="flex justify-between items-center py-4"
-          style={{ paddingLeft: "1.25rem", paddingRight: "1.25rem" }}
+    <header
+      className="fixed top-0 left-0 w-full z-50 transition-all duration-300"
+      style={{
+        backgroundColor: scrolled || menuOpen ? "rgba(19,19,19,0.95)" : "transparent",
+        backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
+        borderBottom: scrolled || menuOpen ? "1px solid rgba(255,255,255,0.05)" : "none",
+        padding: scrolled ? "0.5rem 0" : "0.75rem 0",
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-5 flex justify-between items-center">
+        {/* Logo */}
+        <Link
+          href="#home"
+          className="flex items-center gap-3 group"
+          style={{ textDecoration: "none" }}
         >
-          {/* Logo */}
-          <Link
-            href="/"
-            className="hover:scale-105 transition-transform duration-200 shrink-0"
-            style={{
-              fontFamily: "Anton, sans-serif",
-              fontSize: "1.25rem",
-              fontWeight: 400,
-              color: "#ffb3b1",
-              letterSpacing: "0.05em",
-              textDecoration: "none",
-            }}
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
+            style={{ backgroundColor: "#e31837" }}
           >
-            Burger Hut Makola
-          </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex gap-8 items-center">
-            {navLinks.map(({ href, label }) => {
-              const isActive = pathname === href;
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className="hover:scale-105 transition-all duration-200"
-                  style={{
-                    fontFamily: "Space Grotesk, sans-serif",
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    letterSpacing: "0.1em",
-                    textDecoration: "none",
-                    color: isActive ? "#ffba20" : "#e6bdbb",
-                    borderBottom: isActive ? "2px solid #ffba20" : "none",
-                    paddingBottom: isActive ? "4px" : "0",
-                  }}
-                >
-                  {label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Right side: Order Now + Hamburger */}
-          <div className="flex items-center gap-3">
-            {/* Order Now CTA — hidden on very small screens, shown from sm up */}
-            <Link
-              href="https://wa.me/94772019488"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-block hover:scale-105 active:opacity-80 active:scale-95 transition-all shadow-lg"
-              style={{
-                backgroundColor: "#e31837",
-                color: "#fffaf9",
-                padding: "8px 20px",
-                borderRadius: "9999px",
-                fontFamily: "Space Grotesk, sans-serif",
-                fontSize: "12px",
-                fontWeight: 700,
-                letterSpacing: "0.1em",
-                textDecoration: "none",
-              }}
-            >
-              Order Now
-            </Link>
-
-            {/* Hamburger button — mobile only */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden flex flex-col justify-center items-center gap-[5px] w-10 h-10 rounded-lg border transition-all duration-200 active:scale-95"
-              style={{
-                backgroundColor: menuOpen
-                  ? "rgba(227,24,55,0.15)"
-                  : "rgba(255,255,255,0.05)",
-                borderColor: menuOpen
-                  ? "rgba(227,24,55,0.3)"
-                  : "rgba(255,255,255,0.1)",
-              }}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={menuOpen}
-            >
-              {/* Animated bars */}
-              <span
-                className="block rounded-full transition-all duration-300"
-                style={{
-                  width: "18px",
-                  height: "2px",
-                  backgroundColor: menuOpen ? "#e31837" : "#e5e2e1",
-                  transform: menuOpen
-                    ? "translateY(7px) rotate(45deg)"
-                    : "none",
-                }}
-              />
-              <span
-                className="block rounded-full transition-all duration-300"
-                style={{
-                  width: "18px",
-                  height: "2px",
-                  backgroundColor: menuOpen ? "#e31837" : "#e5e2e1",
-                  opacity: menuOpen ? 0 : 1,
-                }}
-              />
-              <span
-                className="block rounded-full transition-all duration-300"
-                style={{
-                  width: "18px",
-                  height: "2px",
-                  backgroundColor: menuOpen ? "#e31837" : "#e5e2e1",
-                  transform: menuOpen
-                    ? "translateY(-7px) rotate(-45deg)"
-                    : "none",
-                }}
-              />
-            </button>
+            <span className="material-symbols-outlined text-white" style={{ fontSize: "24px" }}>
+              restaurant
+            </span>
           </div>
-        </div>
-      </header>
-
-      {/* Mobile Menu Drawer */}
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 z-40 md:hidden transition-all duration-300"
-        style={{
-          backgroundColor: "rgba(0,0,0,0.6)",
-          backdropFilter: "blur(4px)",
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? "all" : "none",
-        }}
-        onClick={() => setMenuOpen(false)}
-        aria-hidden="true"
-      />
-
-      {/* Slide-in panel */}
-      <div
-        className="fixed top-0 right-0 h-full z-50 md:hidden flex flex-col"
-        style={{
-          width: "280px",
-          backgroundColor: "#0e0e0e",
-          borderLeft: "1px solid rgba(255,255,255,0.08)",
-          transform: menuOpen ? "translateX(0)" : "translateX(100%)",
-          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-          boxShadow: "-8px 0 32px rgba(0,0,0,0.6)",
-        }}
-      >
-        {/* Panel header */}
-        <div
-          className="flex items-center justify-between px-6 py-5 border-b"
-          style={{ borderColor: "rgba(255,255,255,0.08)" }}
-        >
           <span
             style={{
               fontFamily: "Anton, sans-serif",
-              fontSize: "1.1rem",
-              color: "#ffb3b1",
-              letterSpacing: "0.05em",
+              fontSize: "24px",
+              letterSpacing: "0.02em",
+              color: "#fffaf9",
             }}
           >
-            Burger Hut
+            BURGER <span style={{ color: "#e31837" }}>HUT</span>
           </span>
-          <button
-            onClick={() => setMenuOpen(false)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors active:scale-90"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.05)",
-              color: "#e6bdbb",
-            }}
-            aria-label="Close menu"
-          >
-            <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>
-              close
-            </span>
-          </button>
-        </div>
+        </Link>
 
-        {/* Nav links */}
-        <nav className="flex flex-col px-4 py-6 flex-1 gap-1">
-          {navLinks.map(({ href, label }, i) => {
-            const isActive = pathname === href;
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map(({ href, label }) => {
+            const id = href.replace("#", "");
+            const isActive = activeSection === id;
             return (
-              <Link
+              <a
                 key={href}
                 href={href}
+                className="relative py-2 transition-colors hover:text-white"
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                  padding: "14px 16px",
-                  borderRadius: "10px",
-                  textDecoration: "none",
                   fontFamily: "Space Grotesk, sans-serif",
                   fontSize: "13px",
                   fontWeight: 700,
                   letterSpacing: "0.1em",
+                  textDecoration: "none",
                   color: isActive ? "#ffba20" : "#e6bdbb",
-                  backgroundColor: isActive
-                    ? "rgba(255,186,32,0.08)"
-                    : "transparent",
-                  borderLeft: isActive
-                    ? "3px solid #ffba20"
-                    : "3px solid transparent",
-                  transition: "all 0.15s ease",
-                  // Staggered reveal
-                  animationDelay: `${i * 50}ms`,
                 }}
               >
-                <span
-                  className="material-symbols-outlined"
-                  style={{
-                    fontSize: "18px",
-                    color: isActive ? "#ffba20" : "#ad8886",
-                  }}
-                >
-                  {href === "/"
-                    ? "home"
-                    : href === "/about"
-                    ? "info"
-                    : href === "/menu"
-                    ? "restaurant_menu"
-                    : href === "/gallery"
-                    ? "photo_library"
-                    : href === "/locations"
-                    ? "location_on"
-                    : "mail"}
-                </span>
                 {label}
-              </Link>
+                {isActive && (
+                  <span
+                    className="absolute bottom-0 left-0 w-full h-0.5"
+                    style={{ backgroundColor: "#ffba20" }}
+                  />
+                )}
+              </a>
             );
           })}
         </nav>
 
-        {/* Bottom CTA */}
-        <div
-          className="px-4 pb-8 pt-4 border-t"
-          style={{ borderColor: "rgba(255,255,255,0.08)" }}
-        >
-          {/* WhatsApp Order */}
+        {/* Action Button */}
+        <div className="hidden md:block">
           <Link
             href="https://wa.me/94772019488"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-4 rounded-xl mb-3 transition-transform active:scale-95"
+            className="px-6 py-2.5 rounded-full font-bold transition-all active:scale-95 flex items-center gap-2"
             style={{
-              backgroundColor: "#008544",
-              color: "#eeffed",
+              backgroundColor: "#feb700",
+              color: "#412d00",
+              fontSize: "14px",
               textDecoration: "none",
-              fontFamily: "Space Grotesk, sans-serif",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
+              boxShadow: "0 4px 12px rgba(254,183,0,0.2)",
             }}
           >
             <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>
-              chat
+              shopping_basket
             </span>
-            Order via WhatsApp
+            Order Now
           </Link>
-          {/* Call */}
+        </div>
+
+        {/* Mobile Toggle */}
+        <button
+          className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg"
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{ backgroundColor: "rgba(255,255,255,0.05)", color: "#e6bdbb" }}
+        >
+          <span className="material-symbols-outlined">
+            {menuOpen ? "close" : "menu"}
+          </span>
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden absolute top-full left-0 w-full overflow-hidden transition-all duration-300 ease-in-out bg-[#131313] border-b border-white/5 ${
+          menuOpen ? "max-h-screen opacity-100 py-6" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="flex flex-col items-center gap-6">
+          {navLinks.map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                fontFamily: "Space Grotesk, sans-serif",
+                fontSize: "18px",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                textDecoration: "none",
+                color: activeSection === href.replace("#", "") ? "#ffba20" : "#e6bdbb",
+              }}
+            >
+              {label}
+            </a>
+          ))}
           <Link
-            href="tel:+94772019488"
-            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl transition-all"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              color: "#e6bdbb",
-              textDecoration: "none",
-              fontFamily: "Space Grotesk, sans-serif",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-            }}
+            href="https://wa.me/94772019488"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 px-8 py-4 rounded-xl font-bold flex items-center gap-2"
+            style={{ backgroundColor: "#008544", color: "white", textDecoration: "none" }}
           >
-            <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>
-              call
-            </span>
-            Call Us
+            <span className="material-symbols-outlined">chat</span>
+            Order WhatsApp
           </Link>
         </div>
       </div>
-    </>
+    </header>
   );
 }
