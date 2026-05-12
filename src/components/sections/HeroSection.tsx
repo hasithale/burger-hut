@@ -92,12 +92,12 @@ export default function HeroSection() {
       <div style={{ backgroundColor: "#1a0e00", borderTop: "1px solid rgba(255,183,0,0.1)", borderBottom: "1px solid rgba(255,183,0,0.1)" }}>
         <div className="grid grid-cols-2 md:grid-cols-4" style={{ padding: "0" }}>
           {features.map(({ icon, title, desc }, i) => (
-            <div key={title} className="flex flex-col items-center text-center py-6 px-4"
-              style={{
-                borderRight: (i % 2 === 0 || i < 3) ? "1px solid rgba(255,183,0,0.1)" : "none",
-                borderBottom: i < 2 ? "1px solid rgba(255,183,0,0.1)" : "none",
-                md: { borderBottom: "none" }
-              }}>
+            <div key={title} 
+              className={`flex flex-col items-center text-center py-6 px-4 border-[#ffb7001a]
+                ${(i % 2 === 0 || i < 3) ? "border-r" : ""} 
+                ${i < 2 ? "border-b" : ""} 
+                md:border-b-0`}
+            >
               <span className="material-symbols-outlined mb-2" style={{ fontSize: "28px", color: "#feb700", fontVariationSettings: "'FILL' 1" }}>{icon}</span>
               <p style={{ fontFamily: "Anton, sans-serif", fontSize: "12px", fontWeight: 400, color: "white", letterSpacing: "0.05em", lineHeight: 1.2, marginBottom: "4px" }}>{title}</p>
               <p style={{ fontFamily: "Be Vietnam Pro, sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.5)", lineHeight: 1.3 }}>{desc}</p>
