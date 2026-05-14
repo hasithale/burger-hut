@@ -50,91 +50,95 @@ export default function GallerySection() {
   return (
     <section id="gallery" style={{ scrollMarginTop: "60px", backgroundColor: "#0e0e0e", overflow: "hidden" }}>
       {/* Header */}
-      <div className="text-center" style={{ padding: "4rem 1.25rem 2rem" }}>
-        <span className="block mb-2" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", color: "#ffb3b1" }}>OUR WORLD</span>
-        <h2 style={{ fontFamily: "Anton, sans-serif", fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "0.02em", color: "#ffb3b1" }}>
-          FEAST YOUR EYES
-        </h2>
-        <div className="mx-auto mt-4" style={{ width: "80px", height: "4px", backgroundColor: "#feb700" }} />
+      <div className="text-center" style={{ padding: "4rem 0 2rem" }}>
+        <div className="max-w-7xl mx-auto px-5">
+          <span className="block mb-2" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", color: "#ffb3b1" }}>OUR WORLD</span>
+          <h2 style={{ fontFamily: "Anton, sans-serif", fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "0.02em", color: "#ffb3b1" }}>
+            FEAST YOUR EYES
+          </h2>
+          <div className="mx-auto mt-4" style={{ width: "80px", height: "4px", backgroundColor: "#feb700" }} />
+        </div>
       </div>
 
       {/* Slider Container */}
-      <div className="relative group" style={{ padding: "1rem 1.25rem 5rem" }}>
-        {/* Buttons */}
-        <button
-          onClick={handlePrev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 hidden md:flex"
-          style={{ backgroundColor: "rgba(254,183,0,0.8)", color: "#1a0a00", border: "none", cursor: "pointer", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
-        >
-          <span className="material-symbols-outlined">chevron_left</span>
-        </button>
-        <button
-          onClick={handleNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 hidden md:flex"
-          style={{ backgroundColor: "rgba(254,183,0,0.8)", color: "#1a0a00", border: "none", cursor: "pointer", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
-        >
-          <span className="material-symbols-outlined">chevron_right</span>
-        </button>
-
-        {/* Viewport */}
-        <div className="overflow-hidden">
-          <div
-            className="flex transition-transform duration-700 ease-out gap-4"
-            style={{ transform: `translateX(-${currentIndex * (100 / slidesToDisplay)}%)` }}
+      <div className="relative group" style={{ padding: "1rem 0 5rem" }}>
+        <div className="max-w-7xl mx-auto px-5 relative">
+          {/* Buttons */}
+          <button
+            onClick={handlePrev}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 hidden md:flex"
+            style={{ backgroundColor: "rgba(254,183,0,0.8)", color: "#1a0a00", border: "none", cursor: "pointer", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
           >
-            {galleryItems.map((item, index) => (
-              <div
-                key={index}
-                className="shrink-0 relative overflow-hidden rounded-2xl border"
-                style={{
-                  width: `calc(${100 / slidesToDisplay}% - ${(16 * (slidesToDisplay - 1)) / slidesToDisplay}px)`,
-                  aspectRatio: "4/5",
-                  borderColor: "rgba(255,255,255,0.1)",
-                  backgroundColor: "#1a1a1a"
-                }}
-              >
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                />
+            <span className="material-symbols-outlined">chevron_left</span>
+          </button>
+          <button
+            onClick={handleNext}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 hidden md:flex"
+            style={{ backgroundColor: "rgba(254,183,0,0.8)", color: "#1a0a00", border: "none", cursor: "pointer", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
+          >
+            <span className="material-symbols-outlined">chevron_right</span>
+          </button>
+
+          {/* Viewport */}
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-700 ease-out gap-4"
+              style={{ transform: `translateX(-${currentIndex * (100 / slidesToDisplay)}%)` }}
+            >
+              {galleryItems.map((item, index) => (
                 <div
-                  className="absolute inset-0 flex flex-col justify-end p-6"
-                  style={{ background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)" }}
+                  key={index}
+                  className="shrink-0 relative overflow-hidden rounded-2xl border"
+                  style={{
+                    width: `calc(${100 / slidesToDisplay}% - ${(16 * (slidesToDisplay - 1)) / slidesToDisplay}px)`,
+                    aspectRatio: "4/5",
+                    borderColor: "rgba(255,255,255,0.1)",
+                    backgroundColor: "#1a1a1a"
+                  }}
                 >
-                  <span
-                    style={{
-                      fontFamily: "Space Grotesk, sans-serif",
-                      fontSize: "12px",
-                      fontWeight: 700,
-                      letterSpacing: "0.1em",
-                      color: "#feb700",
-                      textTransform: "uppercase"
-                    }}
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                  />
+                  <div
+                    className="absolute inset-0 flex flex-col justify-end p-6"
+                    style={{ background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)" }}
                   >
-                    {item.caption}
-                  </span>
+                    <span
+                      style={{
+                        fontFamily: "Space Grotesk, sans-serif",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        letterSpacing: "0.1em",
+                        color: "#feb700",
+                        textTransform: "uppercase"
+                      }}
+                    >
+                      {item.caption}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Indicators */}
+          <div className="absolute -bottom-10 left-0 w-full flex justify-center gap-3">
+            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className="w-2.5 h-2.5 rounded-full transition-all duration-300"
+                style={{
+                  backgroundColor: currentIndex === idx ? "#feb700" : "rgba(255,255,255,0.2)",
+                  width: currentIndex === idx ? "24px" : "10px",
+                  border: "none",
+                  padding: 0
+                }}
+              />
             ))}
           </div>
-        </div>
-
-        {/* Indicators */}
-        <div className="absolute bottom-10 left-0 w-full flex justify-center gap-3">
-          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className="w-2.5 h-2.5 rounded-full transition-all duration-300"
-              style={{
-                backgroundColor: currentIndex === idx ? "#feb700" : "rgba(255,255,255,0.2)",
-                width: currentIndex === idx ? "24px" : "10px",
-                border: "none",
-                padding: 0
-              }}
-            />
-          ))}
         </div>
       </div>
     </section>

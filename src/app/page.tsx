@@ -24,7 +24,7 @@ export default function SinglePage() {
 
       <main>
         <HeroSection />
-        <AboutSection />
+        {/* <AboutSection /> */}
         <MenuSection />
         <GallerySection />
         <LocationsSection />

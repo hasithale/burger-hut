@@ -23,22 +23,24 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" style={{ scrollMarginTop: "72px", backgroundColor: "#0e0e0e", padding: "4rem 1.25rem" }}>
-      {/* Header */}
-      <div className="mb-10 text-center">
-        <span className="block mb-2" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", color: "#ffb3b1" }}>SAY HELLO</span>
-        <h2 style={{ fontFamily: "Anton, sans-serif", fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "0.02em", color: "white" }}>Get In Touch</h2>
-        <p className="max-w-lg mx-auto mt-3" style={{ fontFamily: "Be Vietnam Pro, sans-serif", fontSize: "16px", lineHeight: 1.6, color: "#ffba20" }}>
-          Good Food, Great Taste, Good Mood. We&apos;re here to serve you the best burgers in Makola.
-        </p>
+    <section id="contact" style={{ scrollMarginTop: "72px", backgroundColor: "#0e0e0e", padding: "4rem 0" }}>
+      <div className="max-w-7xl mx-auto px-5">
+        {/* Header */}
+        <div className="mb-10 text-center">
+          <span className="block mb-2" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", color: "#ffb3b1" }}>SAY HELLO</span>
+          <h2 style={{ fontFamily: "Anton, sans-serif", fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "0.02em", color: "white" }}>Get In Touch</h2>
+          <p className="max-w-lg mx-auto mt-3" style={{ fontFamily: "Be Vietnam Pro, sans-serif", fontSize: "16px", lineHeight: 1.6, color: "#ffba20" }}>
+            Good Food, Great Taste, Good Mood. We&apos;re here to serve you the best burgers in Makola.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-7xl mx-auto">
+      <div className="flex justify-center max-w-7xl mx-auto px-5">
         {/* Contact Info */}
-        <div className="md:col-span-5 flex flex-col gap-6">
+        <div className="w-full max-w-2xl flex flex-col gap-6">
           <div className="p-8 rounded-xl border shadow-2xl" style={{ backgroundColor: "#2a2a2a", borderColor: "rgba(255,255,255,0.05)" }}>
-            <h3 className="mb-2" style={{ fontFamily: "Anton, sans-serif", fontSize: "36px", fontWeight: 400, lineHeight: 1.2, letterSpacing: "0.03em", color: "#ffb3b1" }}>Direct Channels</h3>
-            <p className="mb-6" style={{ fontFamily: "Be Vietnam Pro, sans-serif", fontSize: "14px", color: "#e6bdbb" }}>Reach out to us for orders, deliveries, or quick questions.</p>
+            <h3 className="mb-2 text-center" style={{ fontFamily: "Anton, sans-serif", fontSize: "36px", fontWeight: 400, lineHeight: 1.2, letterSpacing: "0.03em", color: "#ffb3b1" }}>Direct Channels</h3>
+            <p className="mb-6 text-center" style={{ fontFamily: "Be Vietnam Pro, sans-serif", fontSize: "14px", color: "#e6bdbb" }}>Reach out to us for orders, deliveries, or quick questions.</p>
 
             <div className="space-y-4">
               {/* WhatsApp */}
@@ -71,9 +73,9 @@ export default function ContactSection() {
             </div>
 
             {/* Social */}
-            <div className="mt-8">
+            <div className="mt-8 text-center">
               <h4 className="mb-4 uppercase" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", color: "#ffdb9d" }}>Follow the Vibe</h4>
-              <div className="flex gap-4">
+              <div className="flex gap-4 justify-center">
                 {[{ icon: "social_leaderboard", label: "Facebook" }, { icon: "camera", label: "Instagram" }, { icon: "videocam", label: "TikTok" }].map(({ icon, label }) => (
                   <Link key={label} href="#" title={label}
                     className="p-3 rounded-lg border hover:scale-110 transition-all"
@@ -83,55 +85,6 @@ export default function ContactSection() {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Contact Form */}
-        <div className="md:col-span-7">
-          <div className="relative overflow-hidden rounded-xl border shadow-2xl"
-            style={{ backgroundColor: "#201f1f", borderColor: "rgba(255,255,255,0.05)", padding: "2rem 3rem" }}>
-            <h3 className="uppercase mb-2" style={{ fontFamily: "Anton, sans-serif", fontSize: "36px", fontWeight: 400, lineHeight: 1.2, letterSpacing: "0.03em", color: "#ffdb9d" }}>Drop a Message</h3>
-            <p className="mb-8" style={{ fontFamily: "Be Vietnam Pro, sans-serif", fontSize: "16px", lineHeight: 1.6, color: "#e6bdbb" }}>
-              Whether it&apos;s a catering request or just to say thanks, we&apos;d love to hear from you.
-            </p>
-
-            {submitted && (
-              <div className="mb-6 p-4 rounded-lg border" style={{ backgroundColor: "rgba(0,133,68,0.15)", borderColor: "rgba(0,133,68,0.3)", color: "#61de8a", fontFamily: "Be Vietnam Pro, sans-serif" }}>
-                ✅ Message sent! We&apos;ll get back to you soon.
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block mb-2" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", color: "#e6bdbb" }}>Your Name</label>
-                  <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="John Doe" required style={inputStyle}
-                    onFocus={(e) => (e.target.style.borderBottomColor = "#ffb3b1")}
-                    onBlur={(e) => (e.target.style.borderBottomColor = "#5d3f3e")} />
-                </div>
-                <div>
-                  <label className="block mb-2" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", color: "#e6bdbb" }}>Email Address</label>
-                  <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="john@example.com" required style={inputStyle}
-                    onFocus={(e) => (e.target.style.borderBottomColor = "#ffb3b1")}
-                    onBlur={(e) => (e.target.style.borderBottomColor = "#5d3f3e")} />
-                </div>
-              </div>
-              <div>
-                <label className="block mb-2" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", color: "#e6bdbb" }}>What&apos;s on your mind?</label>
-                <textarea rows={6} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Tell us about your experience or ask about our special combos..."
-                  required style={{ ...inputStyle, resize: "none" }}
-                  onFocus={(e) => (e.target.style.borderBottomColor = "#ffb3b1")}
-                  onBlur={(e) => (e.target.style.borderBottomColor = "#5d3f3e")} />
-              </div>
-              <button type="submit"
-                className="hover:scale-105 active:scale-95 transition-all uppercase"
-                style={{ backgroundColor: "#e31837", color: "#fffaf9", padding: "16px 48px", borderRadius: "0.5rem", fontFamily: "Anton, sans-serif", fontSize: "24px", fontWeight: 400, letterSpacing: "0.05em", border: "none", cursor: "pointer", boxShadow: "0 4px 0 0 #92001d" }}>
-                Send Message
-              </button>
-            </form>
           </div>
         </div>
       </div>
